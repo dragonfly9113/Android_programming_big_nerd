@@ -31,15 +31,16 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
-        int question = mQuestionBank[mCurrentIndex].getTextResId();
-        mQuestionTextView.setText(question);
-
         mTrueButton = (Button) findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast t = Toast.makeText(QuizActivity.this, R.string.correct_toast,Toast.LENGTH_SHORT);
+                Toast t;
+                if (mQuestionBank[mCurrentIndex].isAnswerTrue())
+                    t = Toast.makeText(QuizActivity.this, R.string.correct_toast,Toast.LENGTH_SHORT);
+                else
+                    t = Toast.makeText(QuizActivity.this, R.string.incorrect_toast,Toast.LENGTH_SHORT);
+
                 t.setGravity(Gravity.TOP, 0,300);
                 t.show();
             }
@@ -49,7 +50,12 @@ public class QuizActivity extends AppCompatActivity {
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast t = Toast.makeText(QuizActivity.this, R.string.incorrect_toast,Toast.LENGTH_SHORT);
+                Toast t;
+                if (mQuestionBank[mCurrentIndex].isAnswerTrue())
+                    t = Toast.makeText(QuizActivity.this, R.string.incorrect_toast,Toast.LENGTH_SHORT);
+                else
+                    t = Toast.makeText(QuizActivity.this, R.string.correct_toast,Toast.LENGTH_SHORT);
+
                 t.setGravity(Gravity.TOP, 0,300);
                 t.show();
             }
@@ -59,15 +65,17 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (mCurrentIndex < mQuestionBank.length - 1)
-                    mCurrentIndex++;
-                else
-                    mCurrentIndex = 0;
-
-                int question = mQuestionBank[mCurrentIndex].getTextResId();
-                mQuestionTextView.setText(question);
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                setQuestionTextView();
             }
         });
+
+        mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
+        setQuestionTextView();
+    }
+
+    private void setQuestionTextView() {
+        int question = mQuestionBank[mCurrentIndex].getTextResId();
+        mQuestionTextView.setText(question);
     }
 }
