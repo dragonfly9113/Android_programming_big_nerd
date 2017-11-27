@@ -36,7 +36,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast t;
-                if (mQuestionBank[mCurrentIndex].isAnswerTrue())
+                if (checkAnswer(true))
                     t = Toast.makeText(QuizActivity.this, R.string.correct_toast,Toast.LENGTH_SHORT);
                 else
                     t = Toast.makeText(QuizActivity.this, R.string.incorrect_toast,Toast.LENGTH_SHORT);
@@ -51,7 +51,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast t;
-                if (mQuestionBank[mCurrentIndex].isAnswerTrue())
+                if (checkAnswer(true))
                     t = Toast.makeText(QuizActivity.this, R.string.incorrect_toast,Toast.LENGTH_SHORT);
                 else
                     t = Toast.makeText(QuizActivity.this, R.string.correct_toast,Toast.LENGTH_SHORT);
@@ -77,5 +77,12 @@ public class QuizActivity extends AppCompatActivity {
     private void setQuestionTextView() {
         int question = mQuestionBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
+    }
+
+    private boolean checkAnswer(boolean trueButton) {
+        if (trueButton == mQuestionBank[mCurrentIndex].isAnswerTrue())
+            return true;
+        else
+            return false;
     }
 }
