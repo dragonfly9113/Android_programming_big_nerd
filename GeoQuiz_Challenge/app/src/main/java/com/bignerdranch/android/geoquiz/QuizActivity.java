@@ -79,7 +79,7 @@ public class QuizActivity extends AppCompatActivity {
         mQuestionTextView.setText(question);
     }
 
-    private boolean checkAnswer(boolean trueButton) {
+     private boolean checkAnswer(boolean trueButton) {
         if (trueButton == mQuestionBank[mCurrentIndex].isAnswerTrue())
             return true;
         else
